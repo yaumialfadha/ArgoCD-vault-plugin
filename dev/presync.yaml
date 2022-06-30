@@ -14,7 +14,15 @@ spec:
           command: ["ls", "-l"]
         - name: presync-job-2
           image: alpine/curl
-          command: ["curl","www.google.com"]
+          command: 
+            - "curl"
+            - "-d"
+            - "'{\"message\":\"this is my first webhook\"}'"
+            - "-H"
+            - "\"Content-Type: application/json\""
+            - "-X"
+            - "POST"
+            - "http://localhost:12000/example"
       restartPolicy: Never
 ---
 apiVersion: batch/v1
