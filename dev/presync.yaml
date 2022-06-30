@@ -61,7 +61,7 @@ spec:
       containers:
       - name: slack-notification-failed
         image: ubuntu
-          command: 
+        command: 
             - /bin/bash
             - -c
             - |
@@ -72,4 +72,3 @@ spec:
               curl -X POST -H 'Content-type: application/json' --data '{"text":"SYNC FAILED"}' https://hooks.slack.com/services/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
       restartPolicy: Never
   backoffLimit: 2
-
