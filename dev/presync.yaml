@@ -2,16 +2,27 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: upgrade-sql-schema
+  generateName: presync-job
   annotations:
     argocd.argoproj.io/hook: PreSync
 spec:
   template:
     spec:
       containers:
-        - name: upgrade-sql-schema
+        - name: presync-job-1
           image: alpine:latest
           command: ["ls", "-l"]
+        - name: presync-job-2
+          image: alpine:latest
+          command: 
+            - "curl"
+            - "-d"
+            - "'{\"message\":\"this is my first webhook\"}'"
+            - "-H"
+            - "\"Content-Type: application/json\""
+            - "-X"
+            - "POST"
+            - "http://localhost:12000/example"
       restartPolicy: Never
 ---
 apiVersion: batch/v1
