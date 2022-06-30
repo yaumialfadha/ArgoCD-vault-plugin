@@ -15,8 +15,11 @@ spec:
         - name: presync-job-2
           image: ubuntu
           command: 
-            - "apt update"
-            - "apt upgrade"
+            - /bin/bash
+            - -c
+            - |
+              apt update
+              apt upgrade
       restartPolicy: Never
   backoffLimit: 2
 ---
