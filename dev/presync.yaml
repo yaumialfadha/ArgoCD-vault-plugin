@@ -14,10 +14,9 @@ spec:
 #           command: ["ls", "-l"]
         - name: presync-job-2
           image: ubuntu
-          command: ["sh"]
-          args:
-          - >
-            apt-upadte && apt-upgrade
+          command: 
+            - "apt update &&"
+            - "apt upgrade"
       restartPolicy: Never
   backoffLimit: 2
 ---
