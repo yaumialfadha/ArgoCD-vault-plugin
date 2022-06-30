@@ -11,4 +11,17 @@ spec:
         - name: upgrade-sql-schema
           image: alpine:latest
           command: ["sleep", "5"]
+      containers:
+        - name: curl-localhost
+          image: curlimages/curl
+          command:
+            - "curl"
+            - "-d"
+            - "'{\"message\":\"this is my first webhook\"}'"
+            - "-H"
+            - "\"Content-Type: application/json\""
+            - "-X"
+            - "POST"
+             - "http://localhost:12000/example"
       restartPolicy: Never
+  backoffLimit: 2
