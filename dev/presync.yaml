@@ -44,7 +44,7 @@ spec:
               echo "*******************************************************************************************************************************************"
               curl --version
               echo "*******************************************************************************************************************************************"
-              curl -X POST -H 'Content-type: application/json' --data '{"text":"Sync Success"}' https://hooks.slack.com/services/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
+              curl -X POST -H 'Content-type:application/json' --data '{"text":"Sync Success"}' https://hooks.slack.com/services/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
 
       restartPolicy: Never
   backoffLimit: 2
