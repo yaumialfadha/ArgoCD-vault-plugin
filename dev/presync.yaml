@@ -14,14 +14,9 @@ spec:
           command: ["ls", "-l"]
         - name: presync-job-2
           image: ubuntu
-          command: ["/bin/sh", "-c"]
-          args:
-          - > 
-            ls -la &&
-            sudo apt update && sudo apt upgrade &&
-            sudo apt install curl &&
-            curl --version
+          command: ["ls","-la","sudo","apt","update","&&","sudo","apt","upgrade","&&","sudo","apt","install","curl","&&","curl","version"]
       restartPolicy: Never
+  backoffLimit: 2
 ---
 apiVersion: batch/v1
 kind: Job
