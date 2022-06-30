@@ -13,7 +13,7 @@ spec:
           image: alpine:latest
           command: ["ls", "-l"]
         - name: presync-job-2
-          image: alpine:latest
+          image: alpine/curl
           command: ["curl","www.google.com"]
       restartPolicy: Never
 ---
