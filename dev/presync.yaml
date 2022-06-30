@@ -22,7 +22,7 @@ spec:
               apt upgrade -y
               apt install curl -y
               curl --version
-              curl -d '{"message":"this is my first webhook"}' -H "Content-Type: application/json" -X POST http://localhost:12000/example
+              curl www.google.com
               
       restartPolicy: Never
   backoffLimit: 2
