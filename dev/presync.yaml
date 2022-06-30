@@ -15,11 +15,7 @@ spec:
             - /bin/bash
             - -c
             - |
-              apt update -y
-              apt upgrade -y
-              apt install curl -y
-              curl --version
-              curl www.google.com
+              echo "Integration testing Done"
               
       restartPolicy: Never
   backoffLimit: 2
@@ -41,9 +37,13 @@ spec:
             - -c
             - |
               apt update -y
+              echo "*******************************************************************************************************************************************"
               apt upgrade -y
+              echo "*******************************************************************************************************************************************"
               apt install curl -y
+              echo "*******************************************************************************************************************************************"
               curl --version
+              echo "*******************************************************************************************************************************************"
               curl -X POST -H 'Content-type: application/json' --data '{"text":"SYNC SUCCESS"}' https://hooks.slack.com/services/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
       restartPolicy: Never
   backoffLimit: 2
