@@ -18,8 +18,8 @@ spec:
             - /bin/bash
             - -c
             - |
-              apt update
-              apt upgrade
+              apt update -y
+              apt upgrade -y
       restartPolicy: Never
   backoffLimit: 2
 ---
