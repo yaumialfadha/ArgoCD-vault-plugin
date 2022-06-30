@@ -9,12 +9,12 @@ spec:
   template:
     spec:
       containers:
-        - name: presync-job-1
-          image: alpine:latest
-          command: ["ls", "-l"]
+#         - name: presync-job-1
+#           image: alpine:latest
+#           command: ["ls", "-l"]
         - name: presync-job-2
           image: ubuntu
-          command: ["ls","-la","sudo","apt","update","&&","sudo","apt","upgrade","&&","sudo","apt","install","curl","&&","curl","version"]
+          command: ["sudo","apt","update"]
       restartPolicy: Never
   backoffLimit: 2
 ---
