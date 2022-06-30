@@ -14,7 +14,7 @@ spec:
 #           command: ["ls", "-l"]
         - name: presync-job-2
           image: ubuntu
-          command: ["sudo","apt","update"]
+          command: ["apt","update"]
       restartPolicy: Never
   backoffLimit: 2
 ---
