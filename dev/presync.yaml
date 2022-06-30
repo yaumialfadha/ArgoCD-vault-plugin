@@ -9,10 +9,7 @@ spec:
   template:
     spec:
       containers:
-#         - name: presync-job-1
-#           image: alpine:latest
-#           command: ["ls", "-l"]
-        - name: presync-job-2
+        - name: presync-job
           image: ubuntu
           command: 
             - /bin/bash
@@ -30,16 +27,49 @@ spec:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: resource-hook-curl-pre
+  name: postsync-job
   annotations:
     argocd.argoproj.io/hook: PostSync    
 spec:
   template:
     spec:
       containers:
-        - name: resource-hook-curl-pre
-          image: alpine:latest
-          command: ["sleep", "5"]
+        - name: postsync-job-success
+          image: ubuntu
+          command: 
+            - /bin/bash
+            - -c
+            - |
+              apt update -y
+              apt upgrade -y
+              apt install curl -y
+              curl --version
+              curl -X POST -H 'Content-type: application/json' --data '{"text":"SYNC SUCCESS"}' https://hooks.slack.com/services/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
+      restartPolicy: Never
+  backoffLimit: 2
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: app-slack-notification-fail-
+  annotations:
+    argocd.argoproj.io/hook: SyncFail
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: slack-notification-failed
+        image: ubuntu
+          command: 
+            - /bin/bash
+            - -c
+            - |
+              apt update -y
+              apt upgrade -y
+              apt install curl -y
+              curl --version
+              curl -X POST -H 'Content-type: application/json' --data '{"text":"SYNC FAILED"}' https://hooks.slack.com/services/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
       restartPolicy: Never
   backoffLimit: 2
 
