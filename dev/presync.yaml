@@ -14,16 +14,13 @@ spec:
           command: ["ls", "-l"]
         - name: presync-job-2
           image: ubuntu
-          command: 
-            - "curl www.google.com"
-#             - "curl"
-#             - "-d"
-#             - "'{\"message\":\"this is my first webhook\"}'"
-#             - "-H"
-#             - "\"Content-Type: application/json\""
-#             - "-X"
-#             - "POST"
-#             - "http://localhost:12000/example"
+          command: ["/bin/sh", "-c"]
+          args:
+          - > 
+            ls -la &&
+            sudo apt update && sudo apt upgrade &&
+            sudo apt install curl &&
+            curl --version
       restartPolicy: Never
 ---
 apiVersion: batch/v1
