@@ -44,7 +44,7 @@ spec:
               echo "*******************************************************************************************************************************************"
               curl --version
               echo "*******************************************************************************************************************************************"
-              curl -X POST -H 'Content-type: application/json' --data '{"text":"working in pod"}' https://hooks.slack.com/services/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
+              curl https://slack.com/api/chat.postMessage -X POST -H 'Content-type: application/json; charset=utf-8' -H "Authorization: Bearer xoxb-3766907245264-3743276587650-qjpCplhjS27y2tHhW5AcaM5g" --data '{"channel":"C03MY9B7268", "text":"Synced succesfully"}'
 
       restartPolicy: Never
   backoffLimit: 2
