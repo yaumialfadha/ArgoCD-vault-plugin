@@ -44,7 +44,7 @@ spec:
               echo "*******************************************************************************************************************************************"
               curl --version
               echo "*******************************************************************************************************************************************"
-              curl -X POST -H "Content-type: application/json" --data "{'text':'Hello, World!'}" https://hooks.slack.com/services/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
+              curl -X POST -H 'Content-type: application/json' --data '{"text":"working in pod"}' https://hooks.slack.com/services/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
 
       restartPolicy: Never
   backoffLimit: 2
@@ -70,6 +70,6 @@ spec:
               apt upgrade -y
               apt install curl -y
               curl --version
-              curl -X POST -H 'Content-type: application/json' --data '{"text":"SYNC FAILED"}' https://hooks.slack.com/services/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
+              curl -X POST -H "Content-type: application/json" --data "{'text':'SYNC Failed'}" https://hooks.slack.com/services/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
       restartPolicy: Never
   backoffLimit: 2
