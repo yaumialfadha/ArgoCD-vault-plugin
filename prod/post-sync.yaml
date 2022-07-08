@@ -9,6 +9,6 @@ spec:
     spec:
       containers:
         - name: Post-Sync-Job
-          image: alpine:latest
-          command: ["sleep", "5"]
+          image: ubuntu
+          command: ["echo", "This is post-sync job"]
       restartPolicy: Never 
