@@ -1,0 +1,140 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: presync-job
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+spec:
+  template:
+    spec:
+      containers:
+        - name: presync-job
+          image: ubuntu
+          env:
+          - name: slack_token
+            valueFrom:
+              secretKeyRef:
+                name: slack-secret
+                key: token 
+          - name: slack_channel
+            valueFrom:
+              secretKeyRef:
+                name: slack-secret
+                key: channel       
+          command: 
+            - /bin/bash
+            - -c
+            - |
+              apt update -y
+              echo "*******************************************************************************************************************************************"
+              apt upgrade -y
+              echo "*******************************************************************************************************************************************"
+              apt install curl -y
+              echo "*******************************************************************************************************************************************"
+              curl --version
+              echo "*******************************************************************************************************************************************"
+              curl -kv https://slack.com/api/chat.postMessage -X POST -H 'Content-type: application/json; charset=utf-8' -H "Authorization: Bearer $slack_token" --data '{"channel":"$slack_channel", "text":"Prod env Synced succesfully"}'
+      restartPolicy: Never
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: backend
+  template:
+    metadata:
+      labels:
+        tier: backend
+    spec:
+      containers:
+        - name: main
+          image: nginx:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    tier: backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: frontend
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+        - name: main
+          image: nginx:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  selector:
+    tier: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postsync-job
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+spec:
+  template:
+    spec:
+      containers:
+        - name: postsync-job-success
+          image: ubuntu
+          env:
+          - name: slack_token
+            valueFrom:
+              secretKeyRef:
+                name: slack-secret
+                key: token 
+          - name: slack_channel
+            valueFrom:
+              secretKeyRef:
+                name: slack-secret
+                key: channel       
+          command: 
+            - /bin/bash
+            - -c
+            - |
+              apt update -y
+              echo "*******************************************************************************************************************************************"
+              apt upgrade -y
+              echo "*******************************************************************************************************************************************"
+              apt install curl -y
+              echo "*******************************************************************************************************************************************"
+              curl --version
+              echo "*******************************************************************************************************************************************"
+              curl https://slack.com/api/chat.postMessage -X POST -H 'Content-type: application/json; charset=utf-8' -H "Authorization: Bearer $slack_token" --data '{"channel":"$slack_channel", "text":"Prod env Synced succesfully"}'
+      restartPolicy: Never
