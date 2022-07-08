@@ -9,7 +9,7 @@ spec:
     spec:
       containers:
         - name: Pre-Sync-job
-          image: alpine:latest
-          command: ["sleep", "5"]
+          image: ubuntu
+          command: ["echo", "this is pre-sync"]
       restartPolicy: Never
   
