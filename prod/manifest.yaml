@@ -2,14 +2,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  generateName: upgrade-sql-schema
+  generateName: Pre-Sync-job
   annotations:
     argocd.argoproj.io/hook: PreSync
 spec:
   template:
     spec:
       containers:
-        - name: upgrade-sql-schema
+        - name: Pre-Sync-job
           image: alpine:latest
           command: ["sleep", "5"]
       restartPolicy: Never
@@ -112,3 +112,18 @@ spec:
           image: alpine:latest
           command: ["sleep", "2"]
       restartPolicy: Never
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: Post-Sync-job
+  annotations:
+    argocd.argoproj.io/hook: PostSync
+spec:
+  template:
+    spec:
+      containers:
+        - name: Post-Sync-Job
+          image: alpine:latest
+          command: ["sleep", "5"]
+      restartPolicy: Never    
