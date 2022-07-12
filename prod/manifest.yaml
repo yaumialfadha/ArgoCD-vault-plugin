@@ -93,18 +93,7 @@ spec:
     spec:
       containers:
         - name: postsync-job-success
-          image: ubuntu
-          env:
-          - name: slack_token
-            valueFrom:
-              secretKeyRef:
-                name: slack-secret
-                key: token 
-          - name: slack_channel
-            valueFrom:
-              secretKeyRef:
-                name: slack-secret
-                key: channel       
+          image: ubuntu     
           command: 
             - /bin/bash
             - -c
