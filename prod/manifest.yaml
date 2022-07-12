@@ -10,31 +10,12 @@ spec:
     spec:
       containers:
         - name: presync-job
-          image: ubuntu
-          env:
-          - name: slack_token
-            valueFrom:
-              secretKeyRef:
-                name: slack-secret
-                key: token 
-          - name: slack_channel
-            valueFrom:
-              secretKeyRef:
-                name: slack-secret
-                key: channel       
+          image: ubuntu     
           command: 
             - /bin/bash
             - -c
             - |
-              apt update -y
-              echo "*******************************************************************************************************************************************"
-              apt upgrade -y
-              echo "*******************************************************************************************************************************************"
-              apt install curl -y
-              echo "*******************************************************************************************************************************************"
-              curl --version
-              echo "*******************************************************************************************************************************************"
-              curl -kv https://slack.com/api/chat.postMessage -X POST -H 'Content-type: application/json; charset=utf-8' -H "Authorization: Bearer $slack_token" --data '{"channel":"$slack_channel", "text":"Prod env Synced succesfully"}'
+              echo "This is pre-sync"
       restartPolicy: Never
 ---
 apiVersion: apps/v1
@@ -128,13 +109,5 @@ spec:
             - /bin/bash
             - -c
             - |
-              apt update -y
-              echo "*******************************************************************************************************************************************"
-              apt upgrade -y
-              echo "*******************************************************************************************************************************************"
-              apt install curl -y
-              echo "*******************************************************************************************************************************************"
-              curl --version
-              echo "*******************************************************************************************************************************************"
-              curl https://slack.com/api/chat.postMessage -X POST -H 'Content-type: application/json; charset=utf-8' -H "Authorization: Bearer $slack_token" --data '{"channel":"$slack_channel", "text":"Prod env Synced succesfully"}'
+              echo "This is Post-Sync"
       restartPolicy: Never
